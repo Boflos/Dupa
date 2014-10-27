@@ -1,8 +1,10 @@
 #include <iostream>
 
+class Stack;
+
 class Node
 {
-
+public: // tu wpierdalam public bo inaczej sra się, że private jak przez wskaźnik. Przez ref normalnie śmiga.
     int data;
     Node * next;
 public:
@@ -16,7 +18,8 @@ public:
     {
         return data;
     }
-friend class Stack;
+    friend class Stack;
+    friend std::ostream& operator<<(std::ostream& stream, const Stack& sta);
 };
 
 class Stack
@@ -42,28 +45,37 @@ public:
     void pop()
     {
 
-        std::cout << "dupa1";
-        Node * temp;
-        temp = head -> next;
-        std::cout << "dupa2";
-        delete head;
-        head = temp;
-        /*
         Node * oldHead = head;
-        //head = head -> next;
-        //delete oldHead;
-        */
+        head = head -> next;
+        delete oldHead;
 
     }
 
     void show()
     {
-        while(head)
+        Node * temp = head;
+        while(temp)
         {
-            std::cout << head -> data << std::endl;
-            head = head -> next;
+            std::cout << temp -> data << std::endl;
+            temp = temp -> next;
         }
     }
+
+    friend std::ostream& operator<<(std::ostream& stream, const Stack* sta)
+    // w takiej postaci się sra i mogętylko jak dam public do pól noda
+    //  friend std::ostream& operator<<(std::ostream& stream, const Stack& sta) - w takiej mogą być private
+    // oczywiście zmieniam na sta.head i wywołanie std::cout << *stack
+{
+    Node *temp= sta->head;
+    stream << "Stack data: \n";
+    while(temp)
+    {
+        stream<<temp->data<<std::endl;
+        temp=temp->next;
+    }
+    return stream;
+}
+
 };
 
 
@@ -76,6 +88,8 @@ int main()
     stack -> push(1);
     stack -> push(2);
     stack -> push(3);
-    stack -> show();
+    //stack -> show();
+    std::cout << stack;
     stack -> pop();
+    //stack -> show();
 }
