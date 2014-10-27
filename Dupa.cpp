@@ -60,8 +60,8 @@ public:
     {
         while(head)
         {
-            std::cout << head -> data << std::endl;
-            head = head -> next;
+            std::cout << head -> data << std::endl; 
+            head = head -> next;                   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         }
     }
 };
